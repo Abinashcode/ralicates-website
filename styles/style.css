@@ -1,0 +1,323 @@
+:root {
+    --primary-blue: #00A3FF;
+    --secondary-blue: #0066FF;
+    --accent-blue: #00D4FF;
+    --text-dark: #333;
+    --bg-light: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar {
+    padding: 1rem 2rem;
+    background: var(--bg-light);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    margin-left: 2rem;
+    font-weight: 500;
+}
+
+.contact-btn {
+    padding: 0.5rem 1.5rem;
+    background: transparent;
+    border: 2px solid var(--primary-blue);
+    border-radius: 25px;
+    color: var(--primary-blue) !important;
+}
+
+.hero {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+h1 {
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    margin-bottom: 2rem;  
+}
+
+.tags {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.tags span {
+    padding: 0.5rem 1rem;
+    background: rgba(0, 163, 255, 0.1);
+    border-radius: 25px;
+    color: var(--text-dark);
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+}
+
+.primary-btn {
+    padding: 0.8rem 2rem;
+    background: var(--primary-blue);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.secondary-btn {
+    padding: 0.8rem 2rem;
+    background: transparent;
+    border: 2px solid var(--primary-blue);
+    border-radius: 25px;
+    color: var(--primary-blue);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* 🌟 Enhanced Feature Section */
+.hero-features {
+    max-width: 1200px;
+    margin: 3rem auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.feature-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    border-radius: 16px;
+    border: 2px solid transparent;
+    background:
+      linear-gradient(var(--bg-light), var(--bg-light)) padding-box,
+      linear-gradient(90deg, var(--primary-blue), var(--accent-blue), #FFD700) border-box;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+    border-color: transparent;
+    filter: brightness(1.05);
+}
+
+.icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover .icon {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+/* Different gradient colors for icons */
+.rd { background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); }
+.pa { background: linear-gradient(135deg, #00D4FF, #FFD700); }
+.tl { background: linear-gradient(135deg, #FF7F50, #B78CFF); }
+
+.feature-text h3 {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin-bottom: 0.2rem;
+}
+
+.feature-text p {
+    color: #555;
+    font-size: 0.95rem;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px;
+    transition: transform 0.3s ease;
+}
+
+/* Logo and Company Info */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex-shrink: 0;
+}
+
+/* Logo image sizing & responsive behavior */
+.logo img {
+    display: block;
+    height: 56px;
+    max-height: 56px;
+    width: auto;
+    max-width: 220px;
+    object-fit: contain;
+    -webkit-user-drag: none;
+    user-select: none;
+    transition: transform .18s ease, opacity .18s ease;
+}
+
+/* responsive adjustments */
+@media (max-width: 992px) {
+    .logo img { height: 48px; max-height:48px; }
+}
+@media (max-width: 480px) {
+    .logo img { height: 40px; max-height:40px; }
+}
+
+/* If you want the company-info text to stay aligned */
+.company-info { 
+    min-width: 0; 
+}
+
+.company-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.company-info h2 {
+    font-size: 1.2rem;
+    color: var(--text-dark);
+}
+
+.company-info p {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Footer Styles */
+footer {
+    background: #f8f9fa;
+    padding: 4rem 0;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 0;
+}
+
+.footer-links h4 {
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.footer-links a {
+    display: block;
+    color: #666;
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+}
+
+.copyright {
+    color: #666;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .hero-features {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .company-info h2 {
+        font-size: 1rem;
+    }
+
+    .company-info p {
+        font-size: 0.8rem;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 2rem;
+    }
+}
+
+/* ✅ Typing cursor effect for the animated text */
+#typing-text::after {
+    content: '|';
+    animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}

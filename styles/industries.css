@@ -1,0 +1,14 @@
+.industries-section {
+    max-width: 1000px;
+    margin: 6rem auto;
+    padding: 2rem 3rem;
+    background-color: #f9f9f9;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.industries-section h1 {
+    text-align: center;
+    color: #0066FF;
+    margin-bottom: 1rem;
+}
