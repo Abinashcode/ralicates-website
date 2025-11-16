@@ -8,15 +8,105 @@
     <link rel="stylesheet" href="styles/industries.css">
 </head>
 <body>
-    <header> ... (same navbar as About page) ... </header>
 
+    <!-- Header (same navbar reused) -->
+    <header class="site-header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="assets/logo.svg" alt="RALICATES">
+                    </a>
+                    <div class="company-info">
+                        <h2>RALICATES TECHNOLOGY PVT LTD</h2>
+                        <p>Bhavishyam sdhakam</p>
+                    </div>
+                </div>
+
+                <button class="hamburger" aria-expanded="false" aria-label="Toggle navigation">☰</button>
+
+                <div class="nav-links">
+                    <a href="solutions.html">Solutions</a>
+                    <a href="industries.html" class="active">Industries</a>
+                    <a href="how-it-works.html">How it Works</a>
+                    <a href="why-us.html">Why Us</a>
+                    <a href="about.html">About</a>
+                    <a href="careers.html">Careers</a>
+                    <a href="contact.html" class="contact-btn">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
     <main>
         <section class="industries-section container">
             <h1>🏭 INDUSTRIES WE SERVE</h1>
-            <p>We cater to multiple industries — from railways to infrastructure — helping clients enhance operational efficiency with predictive systems.</p>
+            <p class="intro">
+                We deliver predictive maintenance, real-time diagnostics, and high-availability solutions across multiple industries.
+            </p>
+
+            <div class="industry-list">
+
+                <div class="industry-card">
+                    <h2>🚆 Railways</h2>
+                    <p>
+                        Advanced diagnostics for signalling, trackside assets, EI systems, point machines, power supplies, OFC, and field infrastructure.
+                        Ensures <strong>zero downtime</strong> with predictive fault prevention and safety-first operations.
+                    </p>
+                </div>
+
+                <div class="industry-card">
+                    <h2>🚇 Metro & Urban Transit</h2>
+                    <p>
+                        Real-time monitoring of traction, depot equipment, rolling stock, and station utilities — precise insights for
+                        <strong>high-frequency metro operations</strong>.
+                    </p>
+                </div>
+
+                <div class="industry-card">
+                    <h2>⚡ Power & Energy</h2>
+                    <p>
+                        24/7 health diagnostics for substations, transformers, switchgear, feeders, and transmission assets.
+                        Early anomaly detection helps <strong>reduce outages drastically</strong>.
+                    </p>
+                </div>
+
+                <div class="industry-card">
+                    <h2>🏭 Manufacturing & Industrial Plants</h2>
+                    <p>
+                        Condition monitoring for motors, drives, conveyors, robotics, HVAC, and critical machinery —
+                        <strong>AI alerts to prevent breakdowns</strong> and boost throughput.
+                    </p>
+                </div>
+
+                <div class="industry-card">
+                    <h2>📡 Telecom & Data Networks</h2>
+                    <p>
+                        Performance tracking of OFC, towers, power, cooling, and data-centre equipment.
+                        Predictive algorithms ensure <strong>high availability</strong> and zero service failure.
+                    </p>
+                </div>
+
+                <div class="industry-card">
+                    <h2>🌞 Renewable Energy</h2>
+                    <p>
+                        Remote diagnostics for solar inverters, wind turbines, battery banks, hybrid systems —
+                        <strong>predictive insights</strong> for maximum asset performance.
+                    </p>
+                </div>
+
+            </div>
         </section>
     </main>
 
-    <footer> ... </footer>
+    <footer>
+        <div class="container footer-content">
+            <h2>RALICATES TECHNOLOGY PVT LTD</h2>
+            <p>Remote Diagnosis & Predictive Maintenance Systems (RDPMS)</p>
+        </div>
+    </footer>
+
+    <script src="scripts/script.js" defer></script>
 </body>
 </html>
