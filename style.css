@@ -36,8 +36,9 @@ html,body{height:100%;background:var(--page-bg);color:var(--text-dark)}
 .contact-btn.active{background:var(--primary-blue);color:#fff}
 
 /* Mobile hamburger */
-.hamburger{display:none;background:transparent;border:0;font-size:22px;cursor:pointer;padding:.25rem .5rem}
-.nav-links.active{display:flex}
+.hamburger{display:none;background:transparent;border:0;font-size:24px;cursor:pointer;padding:.5rem;z-index:1500;position:relative;color:var(--text-dark);line-height:1;min-width:44px;min-height:44px}
+.hamburger:hover{background:rgba(0,163,255,0.06);border-radius:8px}
+.nav-links.active{display:flex !important}
 
 /* HERO */
 .hero{padding:3.5rem 0;display:block}
@@ -120,9 +121,9 @@ footer{background:#f8f9fa;padding:3rem 0;margin-top:2rem}
   .demo-note{margin-left:0;width:100%;text-align:center}
 }
 @media (max-width:768px){
-  .nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:var(--card-bg);flex-direction:column;padding:1rem;gap:.5rem;box-shadow:0 12px 32px rgba(10,20,40,0.06);z-index:1400;border-top:1px solid rgba(0,0,0,0.03)}
-  .nav-links.active{display:flex}
-  .hamburger{display:block}
+  .nav-links{display:none !important;position:fixed;top:64px;left:0;right:0;background:var(--card-bg);flex-direction:column;padding:1rem;gap:.5rem;box-shadow:0 12px 32px rgba(10,20,40,0.06);z-index:1400;border-top:1px solid rgba(0,0,0,0.03);max-height:calc(100vh - 64px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .nav-links.active{display:flex !important}
+  .hamburger{display:flex !important;align-items:center;justify-content:center}
   .company-info{display:none}
   .hero-content{padding:0 1rem}
   .feature-card{min-width:100%;flex-basis:100%}
@@ -158,10 +159,11 @@ footer{background:#f8f9fa;padding:3rem 0;margin-top:2rem}
     align-items: center;
     justify-content: center;
     padding: 1rem;
+    overflow-y: auto;
 }
 
 .modal-overlay.active {
-    display: flex;
+    display: flex !important;
 }
 
 .modal-content {
