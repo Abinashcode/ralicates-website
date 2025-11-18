@@ -63,35 +63,66 @@
     });
 
     // Typing animation (rotating lines) - only on index page
-    const typingEl = document.getElementById('typing-text');
-    if (typingEl) {
-      const lines = [
-        "before failure.",
-        "Cut unplanned downtime by 40%+.",
-        "Turn sensor noise into actionable signals."
-      ];
-      let li = 0;
-      const speed = 36;
-      const pause = 1400;
-      const wait = ms => new Promise(res => setTimeout(res, ms));
+    try {
+      const typingEl = document.getElementById('typing-text');
+      if (typingEl && typingEl.parentElement) {
+        const lines = [
+          "before failure.",
+          "Cut unplanned downtime by 40%+.",
+          "Turn sensor noise into actionable signals."
+        ];
+        let li = 0;
+        let isRunning = true;
+        const speed = 50;
+        const pause = 2000;
+        const wait = ms => new Promise(res => setTimeout(res, ms));
 
-      (async function loop() {
-        while (true) {
-          const text = lines[li];
-          typingEl.textContent = '';
-          for (let i = 0; i <= text.length; i++) {
-            typingEl.textContent = text.slice(0, i);
-            await wait(speed);
+        // Clear initial text and start animation
+        setTimeout(() => {
+          if (typingEl && typingEl.parentElement) {
+            // Clear the initial text
+            typingEl.textContent = '';
+            
+            (async function loop() {
+              try {
+                while (isRunning && typingEl && typingEl.parentElement) {
+                  const text = lines[li];
+                  
+                  // Type out the text character by character
+                  typingEl.textContent = '';
+                  for (let i = 0; i <= text.length; i++) {
+                    if (!isRunning || !typingEl || !typingEl.parentElement) return;
+                    typingEl.textContent = text.slice(0, i);
+                    await wait(speed);
+                  }
+                  
+                  // Pause with full text
+                  await wait(pause);
+                  
+                  // Erase the text character by character
+                  for (let i = text.length; i >= 0; i--) {
+                    if (!isRunning || !typingEl || !typingEl.parentElement) return;
+                    typingEl.textContent = text.slice(0, i);
+                    await wait(speed / 2);
+                  }
+                  
+                  // Move to next line
+                  li = (li + 1) % lines.length;
+                  await wait(500);
+                }
+              } catch (error) {
+                console.error('Typing animation error:', error);
+                // Fallback: show first line
+                if (typingEl && typingEl.parentElement) {
+                  typingEl.textContent = lines[0];
+                }
+              }
+            })();
           }
-          await wait(pause);
-          for (let i = text.length; i >= 0; i--) {
-            typingEl.textContent = text.slice(0, i);
-            await wait(speed / 2);
-          }
-          li = (li + 1) % lines.length;
-          await wait(300);
-        }
-      })();
+        }, 300);
+      }
+    } catch (error) {
+      console.error('Error initializing typing effect:', error);
     }
 
     // Reveal feature cards on scroll
@@ -105,7 +136,8 @@
 
     // Careers modal functionality - with error handling
     try {
-      const careersLinks = document.querySelectorAll('a[href="careers.html"], a[href*="careers"], a[href*="Careers"]');
+      // More comprehensive selector to catch all career links
+      const careersLinks = document.querySelectorAll('a[href="careers.html"], a[href*="careers"], a[href*="Careers"], a[href="/careers.html"], a[href*="/careers"]');
       const modalOverlay = document.getElementById('careersModal');
       
       if (careersLinks.length > 0) {
@@ -113,14 +145,28 @@
           console.warn('Careers modal element not found');
         } else {
           careersLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
+            // Set href to # to prevent navigation
+            link.setAttribute('href', '#');
+            link.setAttribute('data-careers-modal', 'true');
+            
+            link.addEventListener('click', function(e) {
               e.preventDefault();
               e.stopPropagation();
+              e.stopImmediatePropagation();
+              
               if (modalOverlay) {
                 modalOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
               }
-            });
+              return false;
+            }, false);
+            
+            // Also prevent default on mousedown as backup
+            link.addEventListener('mousedown', function(e) {
+              if (e.button === 0) { // Left click only
+                e.preventDefault();
+              }
+            }, false);
           });
 
           // Close modal handlers
@@ -148,23 +194,46 @@
           });
 
           // Close on Escape key
-          document.addEventListener('keydown', (e) => {
+          const escapeHandler = (e) => {
             if (e.key === 'Escape' && modalOverlay && modalOverlay.classList.contains('active')) {
               closeModal();
             }
-          });
+          };
+          document.addEventListener('keydown', escapeHandler);
         }
+      } else {
+        // If no careers links found, log for debugging
+        console.log('No careers links found on this page');
       }
     } catch (error) {
       console.error('Error initializing careers modal:', error);
     }
   }
   
-  // Initialize when DOM is ready
+  // Initialize when DOM is ready - with multiple fallbacks
+  function startInit() {
+    try {
+      init();
+    } catch (error) {
+      console.error('Initialization error:', error);
+      // Retry after a short delay if initialization fails
+      setTimeout(() => {
+        try {
+          init();
+        } catch (retryError) {
+          console.error('Retry initialization error:', retryError);
+        }
+      }, 100);
+    }
+  }
+  
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
+    document.addEventListener('DOMContentLoaded', startInit);
+  } else if (document.readyState === 'interactive' || document.readyState === 'complete') {
     // DOM is already ready
-    init();
+    startInit();
+  } else {
+    // Fallback: wait a bit and try
+    setTimeout(startInit, 50);
   }
 })();
