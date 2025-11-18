@@ -17,16 +17,21 @@
       }
       hamburger.setAttribute('data-menu-initialized', 'true');
       
+      // Remove existing listeners by cloning (prevents duplicates)
+      const newHamburger = hamburger.cloneNode(true);
+      hamburger.parentNode.replaceChild(newHamburger, hamburger);
+      const newNavLinks = document.querySelector('.nav-links');
+      
       const setOpen = (open) => {
         if (open) {
-          navLinks.classList.add('active');
-          hamburger.setAttribute('aria-expanded', 'true');
-          hamburger.classList.add('active');
+          if (newNavLinks) newNavLinks.classList.add('active');
+          newHamburger.setAttribute('aria-expanded', 'true');
+          newHamburger.classList.add('active');
           document.body.style.overflow = 'hidden';
         } else {
-          navLinks.classList.remove('active');
-          hamburger.setAttribute('aria-expanded', 'false');
-          hamburger.classList.remove('active');
+          if (newNavLinks) newNavLinks.classList.remove('active');
+          newHamburger.setAttribute('aria-expanded', 'false');
+          newHamburger.classList.remove('active');
           document.body.style.overflow = '';
         }
       };
@@ -38,34 +43,40 @@
           e.stopPropagation();
           e.stopImmediatePropagation();
         }
-        const isOpen = navLinks.classList.contains('active');
+        const isOpen = newNavLinks && newNavLinks.classList.contains('active');
         setOpen(!isOpen);
         return false;
       };
-
+      
       // Add multiple event listeners for better mobile support
-      hamburger.addEventListener('click', toggleMenu, false);
-      hamburger.addEventListener('touchend', toggleMenu, false);
+      newHamburger.addEventListener('click', toggleMenu, true); // Capture phase
+      newHamburger.addEventListener('touchend', toggleMenu, true);
       
       // Also handle touchstart to prevent double-tap zoom
-      hamburger.addEventListener('touchstart', (e) => {
+      newHamburger.addEventListener('touchstart', (e) => {
         e.preventDefault();
-      }, { passive: false });
+      }, { passive: false, capture: true });
+      
+      // Update references
+      const hamburgerEl = newHamburger;
+      const navLinksEl = newNavLinks;
 
       // Close when clicking a nav link (mobile)
-      navLinks.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => {
-          setOpen(false);
-        }, false);
-        a.addEventListener('touchend', () => {
-          setOpen(false);
-        }, false);
-      });
+      if (navLinksEl) {
+        navLinksEl.querySelectorAll('a').forEach(a => {
+          a.addEventListener('click', () => {
+            setOpen(false);
+          }, false);
+          a.addEventListener('touchend', () => {
+            setOpen(false);
+          }, false);
+        });
+      }
 
       // Close when clicking outside the nav
       const outsideClickHandler = (e) => {
-        if (!navLinks.classList.contains('active')) return;
-        if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+        if (!navLinksEl || !navLinksEl.classList.contains('active')) return;
+        if (!navLinksEl.contains(e.target) && !hamburgerEl.contains(e.target)) {
           setOpen(false);
         }
       };
@@ -74,7 +85,7 @@
 
       // Close on Escape
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+        if (e.key === 'Escape' && navLinksEl && navLinksEl.classList.contains('active')) {
           setOpen(false);
         }
       }, false);
@@ -172,7 +183,7 @@
     // Careers modal functionality - with error handling
     try {
       // More comprehensive selector to catch all career links
-      const careersLinks = document.querySelectorAll('a[href="careers.html"], a[href*="careers"], a[href*="Careers"], a[href="/careers.html"], a[href*="/careers"]');
+      const careersLinks = document.querySelectorAll('a[href="careers.html"], a[href*="careers"], a[href*="Careers"], a[href="/careers.html"], a[href*="/careers"], a[href="#"]');
       const modalOverlay = document.getElementById('careersModal');
       
       if (careersLinks.length > 0) {
@@ -180,11 +191,21 @@
           console.warn('Careers modal element not found');
         } else {
           careersLinks.forEach(link => {
-            // Set href to # to prevent navigation
-            link.setAttribute('href', '#');
-            link.setAttribute('data-careers-modal', 'true');
+            // Skip if already processed
+            if (link.hasAttribute('data-careers-handled')) return;
+            link.setAttribute('data-careers-handled', 'true');
             
-            link.addEventListener('click', function(e) {
+            // Set href to # to prevent navigation
+            const originalHref = link.getAttribute('href');
+            if (originalHref && originalHref.includes('careers')) {
+              link.setAttribute('href', '#');
+            }
+            
+            // Remove existing listeners by cloning
+            const newLink = link.cloneNode(true);
+            link.parentNode.replaceChild(newLink, link);
+            
+            newLink.addEventListener('click', function(e) {
               e.preventDefault();
               e.stopPropagation();
               e.stopImmediatePropagation();
@@ -194,14 +215,24 @@
                 document.body.style.overflow = 'hidden';
               }
               return false;
-            }, false);
+            }, true); // Use capture phase
             
             // Also prevent default on mousedown as backup
-            link.addEventListener('mousedown', function(e) {
-              if (e.button === 0) { // Left click only
+            newLink.addEventListener('mousedown', function(e) {
+              if (e.button === 0) {
                 e.preventDefault();
               }
-            }, false);
+            }, true);
+            
+            // Touch events for mobile
+            newLink.addEventListener('touchend', function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+              if (modalOverlay) {
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+              }
+            }, true);
           });
 
           // Close modal handlers
@@ -276,17 +307,106 @@
   // Additional fallback: try again after window load
   window.addEventListener('load', () => {
     setTimeout(() => {
-      const hamburger = document.querySelector('.hamburger');
-      const navLinks = document.querySelector('.nav-links');
-      if (hamburger && navLinks && !hamburger.hasAttribute('data-initialized')) {
-        hamburger.setAttribute('data-initialized', 'true');
-        // Re-initialize hamburger menu
-        try {
-          init();
-        } catch (e) {
-          console.error('Fallback initialization error:', e);
-        }
+      try {
+        init();
+      } catch (e) {
+        console.error('Fallback initialization error:', e);
       }
     }, 100);
   });
 })();
+
+// Direct hamburger menu handler as ultimate fallback
+(function() {
+  'use strict';
+  function setupHamburger() {
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (hamburger && navLinks && !hamburger.hasAttribute('data-fallback-setup')) {
+      hamburger.setAttribute('data-fallback-setup', 'true');
+      
+      hamburger.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        navLinks.classList.toggle('active');
+        hamburger.classList.toggle('active');
+        hamburger.setAttribute('aria-expanded', navLinks.classList.contains('active'));
+        document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+      };
+      
+      // Touch support
+      hamburger.ontouchend = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        navLinks.classList.toggle('active');
+        hamburger.classList.toggle('active');
+        hamburger.setAttribute('aria-expanded', navLinks.classList.contains('active'));
+        document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+      };
+    }
+  }
+  
+  // Try multiple times to ensure it works
+  if (document.readyState === 'complete') {
+    setupHamburger();
+  } else {
+    window.addEventListener('load', setupHamburger);
+    document.addEventListener('DOMContentLoaded', setupHamburger);
+    setTimeout(setupHamburger, 500);
+  }
+})();
+
+// Direct careers modal handler as ultimate fallback
+(function() {
+  'use strict';
+  function setupCareersModal() {
+    const careersLinks = document.querySelectorAll('a[href*="careers"], a[href*="Careers"]');
+    const modal = document.getElementById('careersModal');
+    
+    if (careersLinks.length > 0 && modal) {
+      careersLinks.forEach(link => {
+        if (!link.hasAttribute('data-careers-fallback')) {
+          link.setAttribute('data-careers-fallback', 'true');
+          link.setAttribute('href', '#');
+          
+          link.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            return false;
+          };
+        }
+      });
+      
+      // Close button
+      const closeBtn = modal.querySelector('.modal-close');
+      if (closeBtn) {
+        closeBtn.onclick = function(e) {
+          e.preventDefault();
+          modal.classList.remove('active');
+          document.body.style.overflow = '';
+        };
+      }
+      
+      // Close on overlay click
+      modal.onclick = function(e) {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      };
+    }
+  }
+  
+  // Try multiple times
+  if (document.readyState === 'complete') {
+    setupCareersModal();
+  } else {
+    window.addEventListener('load', setupCareersModal);
+    document.addEventListener('DOMContentLoaded', setupCareersModal);
+    setTimeout(setupCareersModal, 500);
+  }
+})();
+

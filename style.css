@@ -68,23 +68,7 @@ h1{margin:0 0 .6rem 0;font-weight:800;line-height:1.02;font-size:clamp(2.2rem,6v
 .pa{background:linear-gradient(135deg,var(--accent-blue),#FFD36E)}
 .tl{background:linear-gradient(135deg,#FF7F50,#B78CFF)}
 
-/* ABOUT page specific */
-.about-section {
-    max-width: 1000px;
-    margin: 2.5rem auto;
-    padding: 2.25rem;
-    background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,250,252,0.98));
-    border-radius: 14px;
-    box-shadow: 0 8px 30px rgba(10,20,40,0.04);
-}
-.about-section h1 { font-size: 1.6rem; margin-bottom: 0.75rem; color: var(--text-dark); }
-.about-section p { color: #3b4750; line-height:1.65; margin-bottom:0.9rem; font-size:0.98rem; }
-.about-section .lead { font-size:1.05rem; color:#2b3b45; margin-bottom:.6rem; }
-
-/* Two-column content (desktop) */
-.about-content { display:grid; grid-template-columns: 1fr 320px; gap:2rem; margin-top:1.25rem; }
-.about-content article { min-width:0; }
-.about-content aside .panel { background:linear-gradient(180deg,#fff,#fbfdff); padding:1rem; border-radius:10px; border:1px solid rgba(12,30,60,0.04); box-shadow:0 6px 18px rgba(5,12,24,0.03); }
+/* ABOUT page specific - removed to avoid conflicts with about.css */
 
 /* Steps / how-it-works */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
@@ -150,7 +134,7 @@ footer{background:#f8f9fa;padding:3rem 0;margin-top:2rem}
 
 /* Modal/Popup Styles */
 .modal-overlay {
-    display: none;
+    display: none !important;
     position: fixed;
     top: 0;
     left: 0;

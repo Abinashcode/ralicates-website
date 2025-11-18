@@ -1,0 +1,66 @@
+==========================================
+HOSTINGER FILE STRUCTURE
+==========================================
+
+All files should be in: public_html/
+
+public_html/
+│
+├── HTML FILES (7 files)
+│   ├── index.html
+│   ├── about.html
+│   ├── contact.html
+│   ├── how-it-works.html
+│   ├── industries.html
+│   ├── solutions.html
+│   └── why-us.html
+│
+├── CSS FILES (7 files)
+│   ├── style.css
+│   ├── about.css
+│   ├── contact.css
+│   ├── how-it-works.css
+│   ├── industries.css
+│   ├── solutions.css
+│   └── why-us.css
+│
+├── JAVASCRIPT FILES (1 file)
+│   └── script.js
+│
+├── ASSETS FOLDER
+│   └── assets/
+│       └── logo.svg
+│
+└── CONFIG FILES (optional)
+    └── .htaccess
+
+==========================================
+IMPORTANT NOTES:
+==========================================
+
+❌ DO NOT CREATE THESE FOLDERS:
+   - styles/ (removed - all CSS in root)
+   - scripts/ (removed - JS in root)
+
+✅ ALL FILES IN ROOT:
+   - All HTML, CSS, JS files directly in public_html/
+   - Only assets/ folder should exist
+
+✅ FILE PATHS IN HTML:
+   - CSS: href="style.css" (not styles/style.css)
+   - CSS: href="about.css" (not styles/about.css)
+   - JS: src="script.js" (not scripts/script.js)
+   - Logo: src="assets/logo.svg" (correct)
+
+==========================================
+TOTAL FILES TO UPLOAD: 16 files
+==========================================
+
+HTML: 7 files
+CSS: 7 files
+JS: 1 file
+Assets: 1 file (logo.svg)
+Config: 1 file (.htaccess - optional)
+
+==========================================
+
