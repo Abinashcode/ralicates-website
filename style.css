@@ -1,8 +1,31 @@
-/* NAVBAR FIX */
+/* ------------------------------------
+   ROOT COLORS
+------------------------------------- */
+:root {
+    --brand: #007bff;
+    --text: #222;
+    --muted: #777;
+    --line: #e5e5e5;
+}
+
+/* ------------------------------------
+   RESET
+------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* ------------------------------------
+   NAVBAR
+------------------------------------- */
 .navbar {
     background: #fff;
     border-bottom: 1px solid var(--line);
     padding: 12px 0;
+    width: 100%;
 }
 
 .nav-container {
@@ -14,7 +37,9 @@
     position: relative;
 }
 
-/* LOGO SECTION */
+/* ------------------------------------
+   LOGO + COMPANY BLOCK
+------------------------------------- */
 .logo {
     display: flex;
     align-items: center;
@@ -34,11 +59,13 @@
 
 .company-info p {
     margin: 0;
-    font-size: .8rem;
+    font-size: 0.8rem;
     color: var(--muted);
 }
 
-/* NAV LINKS (Desktop) */
+/* ------------------------------------
+   NAV LINKS (DESKTOP)
+------------------------------------- */
 .nav-links {
     display: flex;
     gap: 16px;
@@ -46,8 +73,9 @@
 }
 
 .nav-links a {
-    color: var(--text);
     text-decoration: none;
+    color: var(--text);
+    font-size: 0.95rem;
     font-weight: 500;
 }
 
@@ -58,7 +86,9 @@
     border-radius: 8px;
 }
 
-/* HAMBURGER BUTTON (Mobile) */
+/* ------------------------------------
+   HAMBURGER (MOBILE)
+------------------------------------- */
 .hamburger {
     display: none;
     font-size: 26px;
@@ -67,8 +97,11 @@
     cursor: pointer;
 }
 
-/* MOBILE MENU */
+/* ------------------------------------
+   MOBILE MENU
+------------------------------------- */
 @media (max-width: 980px) {
+
     .nav-links {
         display: none;
         position: absolute;
@@ -79,21 +112,23 @@
         border-radius: 10px;
         flex-direction: column;
         padding: 12px;
-        width: 200px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        width: 230px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        z-index: 1000;
     }
 
     .nav-links a {
-        padding: 8px 0;
+        padding: 10px 0;
         width: 100%;
     }
 
-    .hamburger {
-        display: block;
-    }
-
-    /* When active (JS adds .open class) */
+    /* SHOW MENU WHEN .open CLASS ADDED BY JS */
     .nav-links.open {
         display: flex;
+    }
+
+    /* Show hamburger on mobile */
+    .hamburger {
+        display: block;
     }
 }

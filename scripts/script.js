@@ -1,91 +1,138 @@
-// Core Configuration
-const config = {
-    animations: {
-        typing: { speed: 100, pause: 2000 },
-        transition: { duration: '0.3s', easing: 'ease' }
-    },
-    content: {
-        words: ['Predictive Maintenance', 'Remote Diagnostics', 'Asset Management']
-    }
-};
+// -----------------------------
+// NAVIGATION (Hamburger Toggle)
+// -----------------------------
 
-// DOM Elements
-const elements = {
-    hero: document.querySelector('h1'),
-    nav: {
-        links: document.querySelector('.nav-links'),
-        container: document.querySelector('.nav-container')
-    },
-    typed: document.querySelector('#typing-text'),
-    buttons: document.querySelectorAll('button')
-};
-
-// Navigation Handler (NO new hamburger button created)
 class Navigation {
     constructor() {
         this.hamburger = document.querySelector('.hamburger');
-        this.initializeEvents();
+        this.navLinks = document.querySelector('.nav-links');
+        this.addEvents();
     }
 
-    initializeEvents() {
-        if (this.hamburger && elements.nav.links) {
+    addEvents() {
+        if (this.hamburger && this.navLinks) {
             this.hamburger.addEventListener('click', () => {
-                elements.nav.links.classList.toggle('open'); // MATCHING CSS
+                this.navLinks.classList.toggle('open'); // <---- IMPORTANT
             });
         }
-
-        this.initializeSmoothScroll();
-    }
-
-    initializeSmoothScroll() {
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = document.querySelector(anchor.getAttribute('href'));
-                target?.scrollIntoView({ behavior: 'smooth' });
-            });
-        });
     }
 }
 
-// Text Animation Handler
-class TextAnimator {
-    constructor(element, text) {
-        this.element = element;
-        this.text = text;
-    }
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.nav-links');
 
-    async animate() {
-        if (!this.element || !this.text) return;
-        this.element.textContent = this.text;
-    }
-}
+  // if elements missing, nothing to do
+  if (hamburger && navLinks) {
+    const setOpen = (open) => {
+      navLinks.classList.toggle('active', open);
+      hamburger.setAttribute('aria-expanded', String(Boolean(open)));
+    };
 
-// Button Animation Handler
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setOpen(!navLinks.classList.contains('active'));
+    });
+
+    // Close when clicking a nav link (mobile)
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => setOpen(false));
+    });
+
+    // Close when clicking outside the nav
+    document.addEventListener('click', (e) => {
+      if (!navLinks.classList.contains('active')) return;
+      if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+        setOpen(false);
+      }
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    });
+  }
+
+  // Button hover animator (lightweight)
+  document.querySelectorAll('button').forEach(btn => {
+    btn.style.transition = "transform 0.18s ease, box-shadow 0.18s ease";
+    btn.addEventListener('mouseover', () => {
+      btn.style.transform = "translateY(-2px) scale(1.02)";
+      btn.style.boxShadow = "0 8px 22px rgba(3,13,28,0.08)";
+    });
+    btn.addEventListener('mouseout', () => {
+      btn.style.transform = "none";
+      btn.style.boxShadow = "none";
+    });
+  });
+
+  // Typing animation (rotating lines)
+  const typingEl = document.getElementById('typing-text');
+  if (typingEl) {
+    const lines = [
+      "before failure.",
+      "Cut unplanned downtime by 40%+.",
+      "Turn sensor noise into actionable signals."
+    ];
+    let li = 0;
+    const speed = 36;
+    const pause = 1400;
+    const wait = ms => new Promise(res => setTimeout(res, ms));
+
+    (async function loop() {
+      while (true) {
+        const text = lines[li];
+        typingEl.textContent = '';
+        for (let i = 0; i <= text.length; i++) {
+          typingEl.textContent = text.slice(0, i);
+          await wait(speed);
+        }
+        await wait(pause);
+        for (let i = text.length; i >= 0; i--) {
+          typingEl.textContent = text.slice(0, i);
+          await wait(speed / 2);
+        }
+        li = (li + 1) % lines.length;
+        await wait(300);
+      }
+    })();
+  }
+
+  // Reveal feature cards on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('in-view');
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.feature-card').forEach(card => observer.observe(card));
+});
+
+// -----------------------------
+// BUTTON HOVER ANIMATION
+// -----------------------------
 class ButtonAnimator {
-    constructor(buttons) {
-        this.buttons = buttons;
-        this.initialize();
-    }
+    constructor() {
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            btn.style.transition = "all 0.3s ease";
 
-    initialize() {
-        this.buttons.forEach(button => {
-            button.style.transition = `all ${config.animations.transition.duration} ${config.animations.transition.easing}`;
-
-            button.addEventListener('mouseover', () => {
-                button.style.transform = 'scale(1.05)';
-                button.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+            btn.addEventListener("mouseover", () => {
+                btn.style.transform = "scale(1.05)";
+                btn.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
             });
 
-            button.addEventListener('mouseout', () => {
-                button.style.transform = 'scale(1)';
-                button.style.boxShadow = 'none';
+            btn.addEventListener("mouseout", () => {
+                btn.style.transform = "scale(1)";
+                btn.style.boxShadow = "none";
             });
         });
     }
 }
 
-// Multi-line typing animation
+// -----------------------------
+// MULTI-LINE TYPING ANIMATION
+// -----------------------------
 class MultiLineTyper {
     constructor(selector, lines, speed = 80, pause = 1500) {
         this.el = document.querySelector(selector);
@@ -96,56 +143,60 @@ class MultiLineTyper {
 
     async start() {
         if (!this.el) return;
+
         while (true) {
             for (let line of this.lines) {
                 await this.type(line);
-                await this.wait(this.pause);
+                await this.sleep(this.pause);
                 await this.erase();
-                await this.wait(500);
+                await this.sleep(400);
             }
         }
     }
 
     async type(text) {
-        this.el.textContent = '';
-        for (let c of text) {
-            this.el.textContent += c;
-            await this.wait(this.speed);
+        this.el.textContent = "";
+        for (let char of text) {
+            this.el.textContent += char;
+            await this.sleep(this.speed);
         }
     }
 
     async erase() {
         while (this.el.textContent.length > 0) {
             this.el.textContent = this.el.textContent.slice(0, -1);
-            await this.wait(this.speed / 2);
+            await this.sleep(this.speed / 2);
         }
     }
 
-    wait(ms) {
+    sleep(ms) {
         return new Promise(res => setTimeout(res, ms));
     }
 }
 
-// Initialize everything ONCE
-window.addEventListener('DOMContentLoaded', () => {
-    new Navigation();
-    new ButtonAnimator(elements.buttons);
-    new TextAnimator(elements.hero, elements.hero?.textContent).animate();
+// -----------------------------
+// PAGE INITIALIZER
+// -----------------------------
+window.addEventListener("DOMContentLoaded", () => {
 
-    // Typing effect
-    const subtitleLines = [
+    new Navigation();
+    new ButtonAnimator();
+
+    // Typing Text
+    const typingLines = [
         "Diagnose problems before failure.",
         "Cut unplanned downtime by 40%+.",
         "Turn sensor noise into actionable signals."
     ];
-    new MultiLineTyper('#typing-text', subtitleLines).start();
 
-    // Feature card fade-in animation
-    const observer = new IntersectionObserver((entries) => {
+    new MultiLineTyper("#typing-text", typingLines).start();
+
+    // Fade-in animations
+    const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('animate');
+            if (entry.isIntersecting) entry.target.classList.add("animate");
         });
-    }, { threshold: 0.2 });
+    });
 
-    document.querySelectorAll('.feature-card').forEach(card => observer.observe(card));
+    document.querySelectorAll(".feature-card").forEach(card => observer.observe(card));
 });

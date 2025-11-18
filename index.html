@@ -12,25 +12,19 @@
   <header class="site-header">
     <nav class="navbar">
       <div class="nav-container">
-
-        <!-- Logo -->
         <div class="logo">
           <a href="index.html" aria-label="Home">
             <img src="assets/logo.svg" alt="RALICATES">
           </a>
           <div class="company-info">
             <h2>RALICATES TECHNOLOGY PVT LTD</h2>
-            <p>Bhavishyam Sdhakam</p>
+            <p>Bhavishyam sdhakam</p>
           </div>
         </div>
 
-        <!-- Hamburger (Mobile) -->
-        <button class="hamburger" aria-expanded="false" aria-label="Toggle navigation">
-          ☰
-        </button>
+        <button class="hamburger" aria-expanded="false" aria-label="Toggle navigation">☰</button>
 
-        <!-- Navigation Links -->
-        <div class="nav-links">
+        <div class="nav-links" role="navigation" aria-label="Main">
           <a href="solutions.html">Solutions</a>
           <a href="industries.html">Industries</a>
           <a href="how-it-works.html">How it Works</a>
@@ -39,21 +33,16 @@
           <a href="careers.html">Careers</a>
           <a href="contact.html" class="contact-btn">Contact</a>
         </div>
-
       </div>
     </nav>
   </header>
 
   <!-- HERO SECTION -->
   <main>
-    <section class="hero" id="home">
-      <div class="hero-content container">
-
+    <section class="hero container" id="home">
+      <div class="hero-content">
         <h1>Predict. Prevent. Perform.</h1>
-
-        <p class="subtitle">
-          <span id="typing-text"></span>
-        </p>
+        <p class="subtitle">Diagnose problems <span id="typing-text">before failure.</span></p>
 
         <div class="tags">
           <span>Edge + Cloud</span>
@@ -64,17 +53,12 @@
         <div class="cta-buttons">
           <button class="primary-btn">Request a demo</button>
           <button class="secondary-btn">Explore solutions</button>
-
-          <small style="display:block;margin-top:8px;color:#666;">
-            15-min demo • On-site & Remote
-          </small>
+          <small class="demo-note">15‑min demo • On‑site & Remote</small>
         </div>
-
       </div>
 
-      <!-- Features under hero -->
-      <aside class="hero-features container" style="margin-top:1.5rem;">
-        
+      <!-- feature cards row (flex-wrap responsive) -->
+      <div class="hero-features" aria-hidden="false">
         <div class="feature-card">
           <div class="icon rd">RD</div>
           <div class="feature-text">
@@ -98,8 +82,7 @@
             <p>Asset-specific scoring.</p>
           </div>
         </div>
-
-      </aside>
+      </div>
     </section>
   </main>
 
