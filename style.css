@@ -36,9 +36,9 @@ html,body{height:100%;background:var(--page-bg);color:var(--text-dark)}
 .contact-btn.active{background:var(--primary-blue);color:#fff}
 
 /* Mobile hamburger */
-.hamburger{display:none;background:transparent;border:0;font-size:28px;cursor:pointer;padding:.5rem;z-index:1500;position:relative;color:var(--text-dark);line-height:1;min-width:44px;min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none}
-.hamburger:hover,.hamburger:active{background:rgba(0,163,255,0.06);border-radius:8px}
-.hamburger.active{background:rgba(0,163,255,0.1)}
+.hamburger{display:none;background:transparent;border:0;font-size:32px;cursor:pointer;padding:.6rem;z-index:1500;position:relative;color:var(--text-dark);line-height:1;min-width:48px;min-height:48px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;font-weight:bold}
+.hamburger:hover,.hamburger:active{background:rgba(0,163,255,0.1);border-radius:8px;color:var(--primary-blue)}
+.hamburger.active{background:rgba(0,163,255,0.15);color:var(--primary-blue)}
 .nav-links.active{display:flex !important}
 
 /* HERO */
@@ -106,10 +106,18 @@ footer{background:#f8f9fa;padding:3rem 0;margin-top:2rem}
   .demo-note{margin-left:0;width:100%;text-align:center}
 }
 @media (max-width:768px){
-  .nav-links{display:none !important;position:fixed !important;top:64px !important;left:0 !important;right:0 !important;background:var(--card-bg) !important;flex-direction:column !important;padding:1rem !important;gap:.5rem !important;box-shadow:0 12px 32px rgba(10,20,40,0.06) !important;z-index:1400 !important;border-top:1px solid rgba(0,0,0,0.03) !important;max-height:calc(100vh - 64px) !important;overflow-y:auto !important;-webkit-overflow-scrolling:touch !important;width:100% !important}
-  .nav-links.active{display:flex !important;visibility:visible !important;opacity:1 !important}
-  .hamburger{display:flex !important;align-items:center !important;justify-content:center !important;position:relative !important;z-index:1500 !important;pointer-events:auto !important;cursor:pointer !important}
-  .site-header{position:relative;z-index:1200}
+  .navbar .nav-container{flex-direction:row;align-items:center;justify-content:space-between;height:auto;padding:.6rem 1rem;gap:.75rem;flex-wrap:wrap}
+  .logo{flex-shrink:0;align-items:center;gap:.5rem}
+  .logo img{height:38px}
+  .hamburger{display:none !important}
+  .nav-links{display:flex !important;flex-direction:row !important;flex-wrap:wrap !important;gap:.4rem !important;width:auto !important;padding:0 !important;border:none !important;margin:0 !important;justify-content:flex-start !important;overflow-x:auto !important;-webkit-overflow-scrolling:touch !important;scrollbar-width:none !important;-ms-overflow-style:none !important}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{width:auto !important;padding:.4rem .7rem !important;text-align:center !important;border-radius:6px !important;background:transparent !important;font-size:.8rem !important;font-weight:500 !important;color:var(--text-dark) !important;transition:all .2s ease !important;border:1px solid transparent !important;white-space:nowrap !important;flex-shrink:0 !important}
+  .nav-links a:hover{background:rgba(0,163,255,0.08) !important;color:var(--primary-blue) !important;transform:translateY(-1px) !important;border-color:rgba(0,163,255,0.15) !important}
+  .nav-links a.active{background:linear-gradient(135deg,rgba(0,163,255,0.12),rgba(0,163,255,0.08)) !important;color:var(--primary-blue) !important;font-weight:600 !important;border-color:rgba(0,163,255,0.25) !important}
+  .contact-btn{padding:.4rem .9rem !important;background:linear-gradient(135deg,var(--primary-blue),#0088cc) !important;color:#fff !important;font-weight:600 !important;font-size:.8rem !important;border:1px solid var(--primary-blue) !important;box-shadow:0 2px 6px rgba(0,163,255,0.2) !important;white-space:nowrap !important;flex-shrink:0 !important}
+  .contact-btn:hover{background:linear-gradient(135deg,#0088cc,var(--primary-blue)) !important;transform:translateY(-1px) !important;box-shadow:0 3px 10px rgba(0,163,255,0.3) !important}
+  .site-header{position:relative;z-index:1200;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
   .company-info{display:none}
   .hero-content{padding:0 1rem}
   .feature-card{min-width:100%;flex-basis:100%}

@@ -96,15 +96,64 @@
     </div>
   </footer>
 
-  <!-- Careers Modal -->
-  <div id="careersModal" class="modal-overlay">
-    <div class="modal-content">
-      <button class="modal-close" aria-label="Close modal">×</button>
-      <h2>Careers</h2>
-      <p>No current openings. Thanks for your interest.</p>
-    </div>
-  </div>
-
   <script src="script.js" defer></script>
+  <script>
+    // Typing effect - smooth and reliable
+    (function() {
+      var lines = ["before failure.", "Cut unplanned downtime by 40%+.", "Turn sensor noise into actionable signals."];
+      var currentLine = 0;
+      var currentChar = 0;
+      var isDeleting = false;
+      var element = null;
+      
+      function animate() {
+        if (!element) {
+          element = document.getElementById('typing-text');
+          if (!element) return;
+        }
+        
+        var text = lines[currentLine];
+        
+        if (isDeleting) {
+          element.textContent = text.substring(0, currentChar - 1);
+          currentChar--;
+          if (currentChar < 0) {
+            isDeleting = false;
+            currentLine = (currentLine + 1) % lines.length;
+            setTimeout(animate, 600);
+          } else {
+            setTimeout(animate, 35);
+          }
+        } else {
+          element.textContent = text.substring(0, currentChar + 1);
+          currentChar++;
+          if (currentChar >= text.length) {
+            isDeleting = true;
+            setTimeout(animate, 2500);
+          } else {
+            setTimeout(animate, 60);
+          }
+        }
+      }
+      
+      function start() {
+        element = document.getElementById('typing-text');
+        if (element) {
+          element.textContent = '';
+          currentLine = 0;
+          currentChar = 0;
+          isDeleting = false;
+          setTimeout(animate, 400);
+        }
+      }
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', start);
+      } else {
+        start();
+      }
+      window.addEventListener('load', start);
+    })();
+  </script>
 </body>
 </html>

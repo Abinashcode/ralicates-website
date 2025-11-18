@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us | RALICATES TECHNOLOGY PVT LTD</title>
+    <title>Careers | RALICATES TECHNOLOGY PVT LTD</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="contact.css">
+    <link rel="stylesheet" href="about.css">
 </head>
 <body>
     <!-- Header -->
@@ -31,8 +31,8 @@
                     <a href="how-it-works.html">How it Works</a>
                     <a href="why-us.html">Why Us</a>
                     <a href="about.html">About</a>
-                    <a href="careers.html">Careers</a>
-                    <a href="contact.html" class="contact-btn active">Contact</a>
+                    <a href="careers.html" class="active">Careers</a>
+                    <a href="contact.html" class="contact-btn">Contact</a>
                 </div>
             </div>
         </nav>
@@ -40,32 +40,37 @@
 
     <!-- Main Content -->
     <main>
-        <div class="contact-container">
-            <h1>Contact Us</h1>
-            <p>Have a question? Send us a message.</p>
-
-            <div class="contact-info">
-                <div class="contact-item">
-                    <strong>📧 Email:</strong>
-                    <a href="mailto:business@ralictates.com">business@ralictates.com</a>
-                </div>
-                <div class="contact-item">
-                    <strong>📱 Mobile:</strong>
-                    <a href="tel:+919476312598">+91 9476312598</a>
-                </div>
+        <section class="about-section container">
+            <h1>💼 CAREERS</h1>
+            <p><strong>Join Our Team</strong></p>
+            <p>
+                At RALICATES, we're always looking for talented individuals who share our passion for innovation, 
+                technology, and making a real impact in the railway industry. We believe in building a team of 
+                dedicated professionals who are committed to excellence.
+            </p>
+            
+            <div style="background: rgba(0, 163, 255, 0.08); padding: 2rem; border-radius: 12px; margin: 2rem 0; text-align: center; border-left: 4px solid var(--primary-blue);">
+                <h2 style="color: var(--primary-blue); margin-bottom: 1rem; font-size: 1.5rem;">Currently No Open Positions</h2>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #333;">
+                    We don't have any open positions at the moment, but we're always interested in connecting with 
+                    exceptional talent. New opportunities will be available soon as we continue to grow.
+                </p>
+                <p style="margin-top: 1rem; color: var(--muted);">
+                    <strong>Stay connected!</strong> Check back regularly or reach out to us at 
+                    <a href="mailto:business@ralictates.com" style="color: var(--primary-blue);">business@ralictates.com</a> 
+                    to express your interest.
+                </p>
             </div>
 
-            <form id="contactForm">
-                <input type="text" name="name" placeholder="Your Name" required>
-                <input type="email" name="email" placeholder="Your Email" required>
-                <input type="text" name="subject" placeholder="Subject" required>
-                <textarea name="message" placeholder="Write your message..." required></textarea>
-
-                <button type="submit" class="primary-btn">Send Message</button>
-            </form>
-
-            <p id="statusMsg"></p>
-        </div>
+            <h2>🎯 Why Work With Us?</h2>
+            <ul>
+                <li>Work on cutting-edge technology in railway signalling and predictive maintenance</li>
+                <li>Be part of a mission-driven team focused on safety and innovation</li>
+                <li>Collaborate with industry experts and data scientists</li>
+                <li>Contribute to solutions that make a real-world impact</li>
+                <li>Continuous learning and professional development opportunities</li>
+            </ul>
+        </section>
     </main>
 
     <!-- Footer -->
@@ -92,38 +97,6 @@
     </footer>
 
     <script src="script.js" defer></script>
-    <script>
-        document.getElementById("contactForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData.entries());
-            const statusMsg = document.getElementById("statusMsg");
-
-            try {
-                // Add recipient email
-                data.to = "business@ralictates.com";
-                
-                // Send email - configure your backend endpoint here
-                const res = await fetch("/api/send-email", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-
-                if (res.ok) {
-                    const output = await res.json();
-                    statusMsg.innerText = output.message || "Message sent successfully!";
-                    statusMsg.style.color = "green";
-                    e.target.reset();
-                } else {
-                    throw new Error("Failed to send message");
-                }
-            } catch (error) {
-                statusMsg.innerText = "Unable to send message. Please try again later or contact us directly.";
-                statusMsg.style.color = "#d32f2f";
-            }
-        });
-    </script>
 </body>
 </html>
+
