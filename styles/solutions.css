@@ -1,7 +1,6 @@
 /* ===========================
    SOLUTIONS PAGE STYLING
    =========================== */
-@import url('style.css');
 
 .solutions-section {
   max-width: 1000px;
@@ -58,6 +57,7 @@
 @media (max-width: 768px) {
   .solutions-section {
     padding: 1.5rem;
+    margin: 2rem auto;
   }
 
   .solutions-section h1 {
@@ -70,5 +70,25 @@
 
   .solutions-section p {
     font-size: 0.95rem;
+    text-align: left;
+  }
+
+  .solutions-section ul {
+    margin-left: 1.5rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .solutions-section {
+    padding: 1.25rem;
+    margin: 1.5rem 1rem;
+  }
+
+  .solutions-section h1 {
+    font-size: 1.5rem;
+  }
+
+  .solutions-section h2 {
+    font-size: 1.2rem;
   }
 }

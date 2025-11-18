@@ -62,6 +62,7 @@
 @media (max-width: 768px) {
     .about-section {
         padding: 1.5rem;
+        margin: 2rem auto;
     }
 
     .about-section h1 {
@@ -74,5 +75,25 @@
 
     .about-section p {
         font-size: 0.95rem;
+        text-align: left;
+    }
+
+    .about-section ul {
+        margin-left: 1.5rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .about-section {
+        padding: 1.25rem;
+        margin: 1.5rem 1rem;
+    }
+
+    .about-section h1 {
+        font-size: 1.5rem;
+    }
+
+    .about-section h2 {
+        font-size: 1.2rem;
     }
 }

@@ -53,6 +53,7 @@
 @media (max-width: 768px) {
     .industries-section {
         padding: 1.5rem;
+        margin: 2rem auto;
     }
 
     .industry-card {
@@ -61,5 +62,28 @@
 
     .industry-card h2 {
         font-size: 1.2rem;
+    }
+
+    .industries-section .intro {
+        text-align: left;
+    }
+}
+
+@media (max-width: 420px) {
+    .industries-section {
+        padding: 1.25rem;
+        margin: 1.5rem 1rem;
+    }
+
+    .industries-section h1 {
+        font-size: 1.5rem;
+    }
+
+    .industry-card {
+        padding: 1rem;
+    }
+
+    .industry-card h2 {
+        font-size: 1.1rem;
     }
 }

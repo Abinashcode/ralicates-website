@@ -1,23 +1,6 @@
 // -----------------------------
 // NAVIGATION (Hamburger Toggle)
 // -----------------------------
-
-class Navigation {
-    constructor() {
-        this.hamburger = document.querySelector('.hamburger');
-        this.navLinks = document.querySelector('.nav-links');
-        this.addEvents();
-    }
-
-    addEvents() {
-        if (this.hamburger && this.navLinks) {
-            this.hamburger.addEventListener('click', () => {
-                this.navLinks.classList.toggle('open'); // <---- IMPORTANT
-            });
-        }
-    }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
@@ -53,20 +36,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Button hover animator (lightweight)
-  document.querySelectorAll('button').forEach(btn => {
-    btn.style.transition = "transform 0.18s ease, box-shadow 0.18s ease";
-    btn.addEventListener('mouseover', () => {
-      btn.style.transform = "translateY(-2px) scale(1.02)";
-      btn.style.boxShadow = "0 8px 22px rgba(3,13,28,0.08)";
-    });
-    btn.addEventListener('mouseout', () => {
-      btn.style.transform = "none";
-      btn.style.boxShadow = "none";
-    });
+  // Button hover animator (lightweight) - only for non-form buttons
+  document.querySelectorAll('button:not([type="submit"])').forEach(btn => {
+    if (!btn.closest('form')) {
+      btn.style.transition = "transform 0.18s ease, box-shadow 0.18s ease";
+      btn.addEventListener('mouseover', () => {
+        btn.style.transform = "translateY(-2px) scale(1.02)";
+        btn.style.boxShadow = "0 8px 22px rgba(3,13,28,0.08)";
+      });
+      btn.addEventListener('mouseout', () => {
+        btn.style.transform = "none";
+        btn.style.boxShadow = "none";
+      });
+    }
   });
 
-  // Typing animation (rotating lines)
+  // Typing animation (rotating lines) - only on index page
   const typingEl = document.getElementById('typing-text');
   if (typingEl) {
     const lines = [
@@ -106,97 +91,43 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.12 });
 
   document.querySelectorAll('.feature-card').forEach(card => observer.observe(card));
-});
 
-// -----------------------------
-// BUTTON HOVER ANIMATION
-// -----------------------------
-class ButtonAnimator {
-    constructor() {
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach(btn => {
-            btn.style.transition = "all 0.3s ease";
-
-            btn.addEventListener("mouseover", () => {
-                btn.style.transform = "scale(1.05)";
-                btn.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
-            });
-
-            btn.addEventListener("mouseout", () => {
-                btn.style.transform = "scale(1)";
-                btn.style.boxShadow = "none";
-            });
-        });
-    }
-}
-
-// -----------------------------
-// MULTI-LINE TYPING ANIMATION
-// -----------------------------
-class MultiLineTyper {
-    constructor(selector, lines, speed = 80, pause = 1500) {
-        this.el = document.querySelector(selector);
-        this.lines = lines;
-        this.speed = speed;
-        this.pause = pause;
-    }
-
-    async start() {
-        if (!this.el) return;
-
-        while (true) {
-            for (let line of this.lines) {
-                await this.type(line);
-                await this.sleep(this.pause);
-                await this.erase();
-                await this.sleep(400);
-            }
-        }
-    }
-
-    async type(text) {
-        this.el.textContent = "";
-        for (let char of text) {
-            this.el.textContent += char;
-            await this.sleep(this.speed);
-        }
-    }
-
-    async erase() {
-        while (this.el.textContent.length > 0) {
-            this.el.textContent = this.el.textContent.slice(0, -1);
-            await this.sleep(this.speed / 2);
-        }
-    }
-
-    sleep(ms) {
-        return new Promise(res => setTimeout(res, ms));
-    }
-}
-
-// -----------------------------
-// PAGE INITIALIZER
-// -----------------------------
-window.addEventListener("DOMContentLoaded", () => {
-
-    new Navigation();
-    new ButtonAnimator();
-
-    // Typing Text
-    const typingLines = [
-        "Diagnose problems before failure.",
-        "Cut unplanned downtime by 40%+.",
-        "Turn sensor noise into actionable signals."
-    ];
-
-    new MultiLineTyper("#typing-text", typingLines).start();
-
-    // Fade-in animations
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add("animate");
-        });
+  // Careers modal functionality
+  const careersLinks = document.querySelectorAll('a[href="careers.html"], a[href*="careers"]');
+  const modalOverlay = document.getElementById('careersModal');
+  
+  if (careersLinks.length > 0 && modalOverlay) {
+    careersLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
     });
 
-    document.querySelectorAll(".feature-card").forEach(card => observer.observe(card));
+    // Close modal handlers
+    const closeModal = () => {
+      modalOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    const closeBtn = modalOverlay.querySelector('.modal-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeModal);
+    }
+
+    // Close on overlay click
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        closeModal();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+        closeModal();
+      }
+    });
+  }
 });
