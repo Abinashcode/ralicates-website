@@ -11,40 +11,75 @@
 
     // if elements missing, nothing to do
     if (hamburger && navLinks) {
+      // Check if already initialized to prevent duplicate listeners
+      if (hamburger.hasAttribute('data-menu-initialized')) {
+        return;
+      }
+      hamburger.setAttribute('data-menu-initialized', 'true');
+      
       const setOpen = (open) => {
         if (open) {
           navLinks.classList.add('active');
           hamburger.setAttribute('aria-expanded', 'true');
+          hamburger.classList.add('active');
+          document.body.style.overflow = 'hidden';
         } else {
           navLinks.classList.remove('active');
           hamburger.setAttribute('aria-expanded', 'false');
+          hamburger.classList.remove('active');
+          document.body.style.overflow = '';
         }
       };
 
-      hamburger.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+      // Toggle function
+      const toggleMenu = (e) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+        }
         const isOpen = navLinks.classList.contains('active');
         setOpen(!isOpen);
-      });
+        return false;
+      };
+
+      // Add multiple event listeners for better mobile support
+      hamburger.addEventListener('click', toggleMenu, false);
+      hamburger.addEventListener('touchend', toggleMenu, false);
+      
+      // Also handle touchstart to prevent double-tap zoom
+      hamburger.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+      }, { passive: false });
 
       // Close when clicking a nav link (mobile)
       navLinks.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => setOpen(false));
+        a.addEventListener('click', () => {
+          setOpen(false);
+        }, false);
+        a.addEventListener('touchend', () => {
+          setOpen(false);
+        }, false);
       });
 
       // Close when clicking outside the nav
-      document.addEventListener('click', (e) => {
+      const outsideClickHandler = (e) => {
         if (!navLinks.classList.contains('active')) return;
         if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
           setOpen(false);
         }
-      });
+      };
+      document.addEventListener('click', outsideClickHandler, false);
+      document.addEventListener('touchend', outsideClickHandler, false);
 
       // Close on Escape
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') setOpen(false);
-      });
+        if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+          setOpen(false);
+        }
+      }, false);
+    } else {
+      console.warn('Hamburger menu elements not found:', { hamburger: !!hamburger, navLinks: !!navLinks });
     }
 
     // Button hover animator (lightweight) - only for non-form buttons
@@ -227,6 +262,7 @@
     }
   }
   
+  // Multiple initialization strategies for maximum compatibility
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', startInit);
   } else if (document.readyState === 'interactive' || document.readyState === 'complete') {
@@ -236,4 +272,21 @@
     // Fallback: wait a bit and try
     setTimeout(startInit, 50);
   }
+  
+  // Additional fallback: try again after window load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.querySelector('.nav-links');
+      if (hamburger && navLinks && !hamburger.hasAttribute('data-initialized')) {
+        hamburger.setAttribute('data-initialized', 'true');
+        // Re-initialize hamburger menu
+        try {
+          init();
+        } catch (e) {
+          console.error('Fallback initialization error:', e);
+        }
+      }
+    }, 100);
+  });
 })();
