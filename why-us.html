@@ -4,30 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Why Us | RALICATES TECHNOLOGY PVT LTD</title>
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="styles/why-us.css">
 </head>
 <body>
     <!-- Header -->
-    <header>
+    <header class="site-header">
         <nav class="navbar">
             <div class="nav-container">
                 <div class="logo">
-                    <img src="assets/logo.svg" alt="RALICATES">
+                    <a href="index.html" aria-label="Home">
+                        <img src="assets/logo.svg" alt="RALICATES">
+                    </a>
                     <div class="company-info">
                         <h2>RALICATES TECHNOLOGY PVT LTD</h2>
                         <p>Bhavishyam sdhakam</p>
                     </div>
                 </div>
+
+                <button class="hamburger" aria-expanded="false" aria-label="Toggle navigation">☰</button>
+
                 <div class="nav-links">
                     <a href="index.html">Home</a>
-                    <a href="solutions.html" class="btn-link">Solutions</a>
-                    <a href="industries.html" class="btn-link">Industries</a>
+                    <a href="solutions.html">Solutions</a>
+                    <a href="industries.html">Industries</a>
                     <a href="how-it-works.html">How it Works</a>
-                    <a href="why-us.html" class="btn-link active">Why Us</a>
+                    <a href="why-us.html" class="active">Why Us</a>
                     <a href="about.html">About</a>
                     <a href="careers.html">Careers</a>
-                    <!-- <a href="contact.html" class="contact-btn">Contact</a> -->
+                    <a href="contact.html" class="contact-btn">Contact</a>
                 </div>
             </div>
         </nav>
@@ -83,6 +88,15 @@
         </div>
     </footer>
 
-    <script src="scripts/script.js"></script>
+    <!-- Careers Modal -->
+    <div id="careersModal" class="modal-overlay">
+      <div class="modal-content">
+        <button class="modal-close" aria-label="Close modal">×</button>
+        <h2>Careers</h2>
+        <p>No current openings. Thanks for your interest.</p>
+      </div>
+    </div>
+
+    <script src="scripts/script.js" defer></script>
 </body>
 </html>
