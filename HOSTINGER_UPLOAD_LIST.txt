@@ -1,0 +1,48 @@
+===========================================
+FILES TO UPLOAD TO HOSTINGER (public_html)
+===========================================
+
+ALL FILES MUST BE IN THE ROOT DIRECTORY (public_html)
+
+HTML FILES (Root):
+- index.html
+- about.html
+- contact.html
+- how-it-works.html
+- industries.html
+- solutions.html
+- why-us.html
+
+CSS FILES (Root):
+- style.css
+- about.css
+- contact.css
+- how-it-works.css
+- industries.css
+- solutions.css
+- why-us.css
+
+JAVASCRIPT FILES (Root):
+- script.js
+
+ASSETS FOLDER:
+- assets/
+  - logo.svg
+
+===========================================
+IMPORTANT NOTES:
+===========================================
+
+1. DO NOT create "styles/" or "scripts/" folders
+2. All CSS and JS files must be in the ROOT directory
+3. The "assets" folder should contain the logo.svg file
+4. All file paths in HTML are now correct for root structure
+
+VERIFY PATHS IN HTML:
+- CSS: href="style.css" (not styles/style.css)
+- CSS: href="about.css" (not styles/about.css)
+- JS: src="script.js" (not scripts/script.js)
+- Logo: src="assets/logo.svg" (this is correct)
+
+===========================================
+
