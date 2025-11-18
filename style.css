@@ -106,9 +106,9 @@ footer{background:#f8f9fa;padding:3rem 0;margin-top:2rem}
   .demo-note{margin-left:0;width:100%;text-align:center}
 }
 @media (max-width:768px){
-  .nav-links{display:none !important;position:fixed;top:64px;left:0;right:0;background:var(--card-bg);flex-direction:column;padding:1rem;gap:.5rem;box-shadow:0 12px 32px rgba(10,20,40,0.06);z-index:1400;border-top:1px solid rgba(0,0,0,0.03);max-height:calc(100vh - 64px);overflow-y:auto;-webkit-overflow-scrolling:touch;width:100%}
-  .nav-links.active{display:flex !important}
-  .hamburger{display:flex !important;align-items:center;justify-content:center;position:relative !important;z-index:1500 !important}
+  .nav-links{display:none !important;position:fixed !important;top:64px !important;left:0 !important;right:0 !important;background:var(--card-bg) !important;flex-direction:column !important;padding:1rem !important;gap:.5rem !important;box-shadow:0 12px 32px rgba(10,20,40,0.06) !important;z-index:1400 !important;border-top:1px solid rgba(0,0,0,0.03) !important;max-height:calc(100vh - 64px) !important;overflow-y:auto !important;-webkit-overflow-scrolling:touch !important;width:100% !important}
+  .nav-links.active{display:flex !important;visibility:visible !important;opacity:1 !important}
+  .hamburger{display:flex !important;align-items:center !important;justify-content:center !important;position:relative !important;z-index:1500 !important;pointer-events:auto !important;cursor:pointer !important}
   .site-header{position:relative;z-index:1200}
   .company-info{display:none}
   .hero-content{padding:0 1rem}

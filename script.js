@@ -316,45 +316,78 @@
   });
 })();
 
-// Direct hamburger menu handler as ultimate fallback
+// Global hamburger toggle function - accessible from anywhere
+window.toggleMobileMenu = function() {
+  const navLinks = document.querySelector('.nav-links');
+  const hamburger = document.querySelector('.hamburger');
+  
+  if (navLinks && hamburger) {
+    const isActive = navLinks.classList.contains('active');
+    
+    if (isActive) {
+      navLinks.classList.remove('active');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    } else {
+      navLinks.classList.add('active');
+      hamburger.classList.add('active');
+      hamburger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+};
+
+// Direct hamburger menu handler - SIMPLE AND RELIABLE
 (function() {
   'use strict';
+  
   function setupHamburger() {
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     
-    if (hamburger && navLinks && !hamburger.hasAttribute('data-fallback-setup')) {
-      hamburger.setAttribute('data-fallback-setup', 'true');
-      
+    if (hamburger && navLinks) {
+      // Use the global function
       hamburger.onclick = function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        navLinks.classList.toggle('active');
-        hamburger.classList.toggle('active');
-        hamburger.setAttribute('aria-expanded', navLinks.classList.contains('active'));
-        document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        window.toggleMobileMenu();
+        return false;
       };
       
-      // Touch support
+      // Touch support for mobile
       hamburger.ontouchend = function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        navLinks.classList.toggle('active');
-        hamburger.classList.toggle('active');
-        hamburger.setAttribute('aria-expanded', navLinks.classList.contains('active'));
-        document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        window.toggleMobileMenu();
+        return false;
       };
+      
+      // Also handle touchstart to prevent double-tap
+      hamburger.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+      }, { passive: false });
     }
   }
   
-  // Try multiple times to ensure it works
-  if (document.readyState === 'complete') {
-    setupHamburger();
-  } else {
-    window.addEventListener('load', setupHamburger);
+  // Try immediately and multiple times
+  setupHamburger();
+  
+  if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', setupHamburger);
-    setTimeout(setupHamburger, 500);
   }
+  
+  window.addEventListener('load', function() {
+    setTimeout(setupHamburger, 100);
+  });
+  
+  // Final fallback after everything loads
+  setTimeout(setupHamburger, 1000);
+  setTimeout(setupHamburger, 2000);
 })();
 
 // Direct careers modal handler as ultimate fallback

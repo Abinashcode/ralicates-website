@@ -22,7 +22,7 @@
           </div>
         </div>
 
-        <button type="button" class="hamburger" aria-expanded="false" aria-label="Toggle navigation" aria-controls="main-navigation">☰</button>
+        <button type="button" class="hamburger" aria-expanded="false" aria-label="Toggle navigation" aria-controls="main-navigation" onclick="if(typeof toggleMobileMenu==='function'){toggleMobileMenu();}else{var n=document.querySelector('.nav-links');var h=this;if(n){n.classList.toggle('active');h.classList.toggle('active');h.setAttribute('aria-expanded',n.classList.contains('active'));document.body.style.overflow=n.classList.contains('active')?'hidden':'';}}return false;">☰</button>
 
         <div id="main-navigation" class="nav-links" role="navigation" aria-label="Main">
           <a href="solutions.html">Solutions</a>
